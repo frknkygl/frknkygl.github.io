@@ -1,0 +1,72 @@
+*{
+  margin: 0px;
+  padding: 0px;
+}
+body, html{
+  height: 100%;
+}
+nav{
+  position: absolute;
+  height: 100px;
+  width: 100%;
+  text-align: center;
+  line-height: 140px;
+  z-index: 2;
+}
+nav a{
+  color: #FFF;
+  font-family:'Doppio One', sans-serif;
+  text-decoration: none;
+  font-size: 20px;
+  margin-left: 15px;
+  padding: 12px 12px;
+}
+nav a:hover{
+  background-color: #201F1F;
+  border-radius: 10px;
+}
+.gorsel{
+  height: 100%;
+  background-color: write;
+  background-size: cover;
+
+}
+#gor1{
+  background-image: url(1.jpg);
+}
+.ANASAYFA1{
+  position: absolute;
+  float: left;
+}
+.ANAYAZI{
+  width: 100%;
+  height: 100%;
+  margin-top: 150px;
+  z-index: 1;
+  text-align: center;
+}
+.ANAYAZI h1{
+  font-family:'Vollkorn SC', serif;
+  font-size: 75px;
+  color: #222222;
+}
+.ANAYAZI h2{
+  color: #222222;
+  font-size: 25px;
+  font-family:'Rokkitt', serif;
+  margin-bottom: 15px;
+}
+.ANAYAZI p1{
+  color: #FFF;
+  font-size: 25px;
+  font-family:'Rokkitt', serif;
+  margin-bottom: 15px;
+}
+
+.ANAFILTRE{
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0.20;
+  z-index: 0;
+}
