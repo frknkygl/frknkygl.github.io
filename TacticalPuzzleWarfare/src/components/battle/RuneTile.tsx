@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import Animated, { Layout, SlideInUp, ZoomOut } from 'react-native-reanimated';
+import Animated, { Easing, FadeIn, LinearTransition, ZoomOut } from 'react-native-reanimated';
 
 import type { Tile } from '../../game/types';
 import { colors, elementColors } from '../../theme';
@@ -33,9 +33,9 @@ export function RuneTile({ tile, x, y, size, selected }: RuneTileProps) {
 
   return (
     <Animated.View
-      layout={Layout.springify().damping(16).stiffness(180)}
-      entering={SlideInUp.duration(320).springify().damping(15)}
-      exiting={ZoomOut.duration(240)}
+      layout={LinearTransition.duration(200).easing(Easing.out(Easing.cubic))}
+      entering={FadeIn.duration(180)}
+      exiting={ZoomOut.duration(180)}
       style={[
         styles.cell,
         {
