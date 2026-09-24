@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KAYAGIL - Oyun</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="oyun.css">
+    <link href="https://fonts.googleapis.com/css?family=Doppio+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rokkitt" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Vollkorn+SC" rel="stylesheet">
+  </head>
+  <body class="oyun-body">
+    <nav>
+      <a href="index.html">ANA SAYFA</a>
+      <a href="oyun.html">OYUN</a>
+    </nav>
+
+    <div class="oyun-alan">
+      <h1 class="oyun-baslik">YILAN OYUNU</h1>
+      <div class="oyun-skorlar">
+        <span>Skor: <b id="skor">0</b></span>
+        <span>En Yüksek: <b id="rekor">0</b></span>
+      </div>
+
+      <div class="oyun-kutu">
+        <canvas id="tahta" width="400" height="400"></canvas>
+        <div id="ortaKatman" class="orta-katman">
+          <p id="mesaj">Başlamak için bir ok tuşuna bas</p>
+          <button id="baslaBtn">BAŞLA</button>
+        </div>
+      </div>
+
+      <div class="oyun-kontroller">
+        <button class="yon-btn" id="yukari">▲</button>
+        <div class="yon-satir">
+          <button class="yon-btn" id="sol">◀</button>
+          <button class="yon-btn" id="asagi">▼</button>
+          <button class="yon-btn" id="sag">▶</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="oyun.js"></script>
+  </body>
+</html>
