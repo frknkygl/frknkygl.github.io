@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import { colors, radius, type } from '../theme';
+import { trUpper } from '../utils/text';
 
 interface StatBarProps {
   value: number;
@@ -43,9 +44,9 @@ export function StatBar({
 
   return (
     <View style={styles.wrap}>
-      {label ? (
+      {label || valueLabel ? (
         <View style={styles.labelRow}>
-          <Text style={styles.label}>{label}</Text>
+          {label ? <Text style={styles.label}>{trUpper(label)}</Text> : <View />}
           {valueLabel ? <Text style={styles.value}>{valueLabel}</Text> : null}
         </View>
       ) : null}
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 3,
   },
-  label: { ...type.labelCaps, color: colors.onSurfaceVariant, textTransform: 'uppercase' },
+  label: { ...type.labelCaps, color: colors.onSurfaceVariant },
   value: { ...type.labelCaps, color: colors.onSurface },
   track: {
     width: '100%',

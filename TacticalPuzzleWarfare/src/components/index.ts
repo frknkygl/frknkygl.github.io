@@ -7,6 +7,7 @@ export * from './StatBar';
 export * from './ElementBadge';
 export * from './RarityFrame';
 export * from './OrnateFrame';
+export * from './GameTabBar';
 export * from './SectionHeader';
 export * from './HeroPortrait';
 export * from './HeroCard';

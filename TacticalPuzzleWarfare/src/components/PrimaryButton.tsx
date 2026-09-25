@@ -4,6 +4,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 
 import { colors, radius, spacing, type } from '../theme';
+import { playSound } from '../utils/sound';
+import { trUpper } from '../utils/text';
 import { Icon, type IconName } from './Icon';
 
 type Variant = 'primary' | 'attack' | 'secondary' | 'ghost' | 'danger';
@@ -70,6 +72,7 @@ export function PrimaryButton({
   const handlePress = () => {
     if (disabled) return;
     if (haptics) Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+    playSound('button');
     onPress?.();
   };
 
@@ -91,7 +94,7 @@ export function PrimaryButton({
       <View style={styles.content}>
         {icon ? <Icon name={icon} size={16} color={v.text} /> : null}
         <Text style={[styles.label, { color: v.text }]} numberOfLines={1}>
-          {label}
+          {trUpper(label)}
         </Text>
       </View>
     </Pressable>
@@ -136,7 +139,6 @@ const styles = StyleSheet.create({
   },
   label: {
     ...type.titleTactical,
-    textTransform: 'uppercase',
     textShadowColor: 'rgba(0,0,0,0.25)',
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 1,

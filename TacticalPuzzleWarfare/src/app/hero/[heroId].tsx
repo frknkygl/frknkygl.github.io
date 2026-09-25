@@ -7,6 +7,7 @@ import { GEAR } from '../../data/gear';
 import { HERO_MAP, MAX_HERO_LEVEL, heroStatAtLevel, heroUpgradeCost } from '../../data/heroes';
 import { colors, radius, rarityColors, spacing, type } from '../../theme';
 import { useGameStore } from '../../store/useGameStore';
+import { trUpper } from '../../utils/text';
 
 export default function HeroDetailScreen() {
   const { heroId } = useLocalSearchParams<{ heroId: string }>();
@@ -77,7 +78,7 @@ export default function HeroDetailScreen() {
             <Text style={styles.title}>{hero.title}</Text>
             <View style={styles.badgeRow}>
               <ElementBadge element={hero.element} showLabel />
-              <Text style={[styles.rarity, { color: rc.text }]}>{rc.label}</Text>
+              <Text style={[styles.rarity, { color: rc.text }]}>{trUpper(rc.label)}</Text>
               {owned ? <Text style={styles.level}>Sv. {owned.level}/{MAX_HERO_LEVEL}</Text> : null}
             </View>
           </View>
@@ -170,7 +171,7 @@ function StatChip({ icon, label, value, color }: { icon: React.ComponentProps<ty
     <View style={styles.statChip}>
       <Icon name={icon} size={18} color={color} />
       <Text style={styles.statChipValue}>{value}</Text>
-      <Text style={styles.statChipLabel}>{label}</Text>
+      <Text style={styles.statChipLabel}>{trUpper(label)}</Text>
     </View>
   );
 }
@@ -185,7 +186,7 @@ const styles = StyleSheet.create({
   name: { ...type.headlineMd, color: colors.primary },
   title: { ...type.bodyMd, color: colors.onSurfaceVariant },
   badgeRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginTop: 4 },
-  rarity: { ...type.labelCaps, textTransform: 'uppercase' },
+  rarity: { ...type.labelCaps },
   level: { ...type.labelCaps, color: colors.onSurfaceVariant },
   lore: { ...type.bodyLg, color: colors.onSurfaceVariant, fontStyle: 'italic', marginTop: spacing.sm },
   statsGrid: { flexDirection: 'row', gap: spacing.sm },
@@ -200,7 +201,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
   },
   statChipValue: { ...type.statLg, color: colors.onSurface, fontSize: 20 },
-  statChipLabel: { ...type.labelXs, color: colors.onSurfaceVariant, textTransform: 'uppercase' },
+  statChipLabel: { ...type.labelXs, color: colors.onSurfaceVariant },
   ultimateDesc: { ...type.bodyLg, color: colors.onSurfaceVariant },
   maxedText: { ...type.bodyLg, color: colors.primary },
   gearGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs },

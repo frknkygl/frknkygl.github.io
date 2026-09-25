@@ -38,6 +38,14 @@
           "resizeMode": "contain",
           "backgroundColor": "#141316"
         }
+      ],
+      [
+        "expo-audio",
+        {
+          "recordAudioAndroid": false,
+          "enableBackgroundRecording": false,
+          "enableBackgroundPlayback": false
+        }
       ]
     ],
     "experiments": {

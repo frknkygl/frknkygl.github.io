@@ -7,6 +7,7 @@ import { AppHeader, ElementBadge, OrnateFrame, ScreenBackground, StageNode } fro
 import { CHAPTERS, STAGE_MAP } from '../../data/stages';
 import { colors, elementColors, spacing, type } from '../../theme';
 import { useGameStore } from '../../store/useGameStore';
+import { trUpper } from '../../utils/text';
 
 export default function CampaignScreen() {
   const router = useRouter();
@@ -58,7 +59,7 @@ export default function CampaignScreen() {
               />
               <View style={styles.chapterHeaderRow}>
                 <View style={{ flex: 1 }}>
-                  <Text style={styles.chapterTitle}>{chapter.name}</Text>
+                  <Text style={styles.chapterTitle}>{trUpper(chapter.name)}</Text>
                   <Text style={styles.chapterProgress}>
                     {clearedInChapter}/{chapter.stageIds.length} tamamlandı
                   </Text>
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
   },
   chapterHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', gap: spacing.sm },
-  chapterTitle: { ...type.headlineSm, color: colors.primary, textTransform: 'uppercase', letterSpacing: 0.5 },
+  chapterTitle: { ...type.headlineSm, color: colors.primary, letterSpacing: 0.5 },
   chapterProgress: { ...type.labelXs, color: colors.onSurfaceVariant, marginTop: 2 },
   chapterDesc: { ...type.bodyMd, color: colors.onSurfaceVariant, marginTop: 6, marginBottom: spacing.sm },
   stagesRow: { gap: spacing.sm, paddingVertical: spacing.xs },

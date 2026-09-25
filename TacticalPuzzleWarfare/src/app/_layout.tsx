@@ -9,6 +9,7 @@ import { useFonts } from 'expo-font';
 
 import { appFonts, colors } from '../theme';
 import { useGameStore } from '../store/useGameStore';
+import { setSoundEnabled } from '../utils/sound';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -17,12 +18,17 @@ export default function RootLayout() {
   const ensureInitialized = useGameStore((s) => s.ensureInitialized);
   const tickEnergy = useGameStore((s) => s.tickEnergy);
   const hasHydrated = useGameStore((s) => s.hasHydrated);
+  const soundEnabled = useGameStore((s) => s.soundEnabled);
 
   useEffect(() => {
     if (hasHydrated) {
       ensureInitialized();
     }
   }, [hasHydrated, ensureInitialized]);
+
+  useEffect(() => {
+    setSoundEnabled(soundEnabled);
+  }, [soundEnabled]);
 
   useEffect(() => {
     const id = setInterval(() => tickEnergy(), 15000);

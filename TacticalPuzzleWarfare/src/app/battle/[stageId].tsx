@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { ElementBadge, Icon, OrnateFrame, StatBar } from '../../components';
+import { BossAvatar } from '../../components/battle/BossAvatar';
 import { FloatingCombatText, type CombatPopup } from '../../components/battle/FloatingCombatText';
 import { HeroUltimateSlot } from '../../components/battle/HeroUltimateSlot';
 import { PendingSwap, RuneBoard } from '../../components/battle/RuneBoard';
@@ -16,6 +17,8 @@ import type { Pos } from '../../game/types';
 import { buildSquadRuntime } from '../../store/helpers';
 import { useGameStore } from '../../store/useGameStore';
 import { colors, elementColors, radius, spacing, type } from '../../theme';
+import { playSound } from '../../utils/sound';
+import { trUpper } from '../../utils/text';
 
 export default function BattleScreen() {
   const { stageId } = useLocalSearchParams<{ stageId: string }>();
@@ -76,6 +79,7 @@ export default function BattleScreen() {
     if (!stage) return;
 
     if (finalState.status === 'won') {
+      playSound('victory');
       const partyHpPct = finalState.partyHp / Math.max(1, finalState.partyMaxHp);
       const movesLeftPct = finalState.movesLeft / Math.max(1, stage.moveLimit);
       let stars = 1;
@@ -86,6 +90,7 @@ export default function BattleScreen() {
         router.replace({ pathname: '/victory/[stageId]', params: { stageId: stage.id, result: 'win', stars: String(stars) } });
       }, 550);
     } else {
+      playSound('defeat');
       setTimeout(() => {
         router.replace({ pathname: '/victory/[stageId]', params: { stageId: stage.id, result: 'lose', stars: '0' } });
       }, 550);
@@ -128,6 +133,7 @@ export default function BattleScreen() {
     const hero = battleState.squad[index];
     const next = applyUltimate(battleState, index);
     if (next === battleState) return;
+    playSound('ultimate');
     setBattleState(next);
     pushPopup(hero.ultimateName, `${hero.name.split(' ')[0]} YETENEĞİ`, colors.tertiary);
     progressQuest('useUltimates', 1);
@@ -188,10 +194,7 @@ export default function BattleScreen() {
           </View>
 
           <View style={styles.bossRow}>
-            <View style={[styles.bossAvatar, { borderColor: ec.core, shadowColor: ec.core }]}>
-              <LinearGradient colors={[ec.core, colors.surfaceContainerLowest]} style={StyleSheet.absoluteFill} />
-              <Icon name={stage.isChapterBoss ? 'skull-crossbones' : 'sword-cross'} size={34} color={colors.onSurface} />
-            </View>
+            <BossAvatar element={stage.bossElement} isBoss={stage.isChapterBoss} size={72} />
             <View style={{ flex: 1, gap: 6 }}>
               <Text style={styles.bossName} numberOfLines={2}>
                 {stage.bossName.toLocaleUpperCase('tr-TR')}
@@ -204,7 +207,9 @@ export default function BattleScreen() {
                 height={16}
               />
               <Text style={styles.intentText}>
-                {battleState.bossStunned ? '⚡ SERSEMLEDİ' : `${battleState.bossAttackCountdown} hamle sonra saldıracak`}
+                {battleState.bossStunned
+                  ? '⚡ SERSEMLEDİ'
+                  : trUpper(`${battleState.bossAttackCountdown} hamle sonra saldıracak`)}
               </Text>
             </View>
           </View>
@@ -213,7 +218,7 @@ export default function BattleScreen() {
         <View style={styles.partyRow}>
           <View style={{ flex: 1, gap: 4 }}>
             <View style={styles.partyLabelRow}>
-              <Text style={styles.partyLabel}>Birlik</Text>
+              <Text style={styles.partyLabel}>{trUpper('Birlik')}</Text>
               {battleState.shieldCharges > 0 ? (
                 <View style={styles.shieldBadge}>
                   <Icon name="shield-check" size={12} color={colors.armor} />
@@ -306,18 +311,6 @@ const styles = StyleSheet.create({
   },
   bossTagText: { ...type.labelXs, letterSpacing: 1 },
   bossRow: { flexDirection: 'row', gap: spacing.md, alignItems: 'center' },
-  bossAvatar: {
-    width: 76,
-    height: 76,
-    borderRadius: radius.lg,
-    borderWidth: 2.5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.surfaceContainerHigh,
-    overflow: 'hidden',
-    shadowOpacity: 0.8,
-    shadowRadius: 10,
-  },
   bossName: {
     ...type.headlineLg,
     color: colors.onSurface,
@@ -326,10 +319,10 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 4,
   },
-  intentText: { ...type.labelCaps, color: colors.secondary, textTransform: 'uppercase' },
+  intentText: { ...type.labelCaps, color: colors.secondary },
   partyRow: { flexDirection: 'row' },
   partyLabelRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  partyLabel: { ...type.labelCaps, color: colors.onSurfaceVariant, textTransform: 'uppercase' },
+  partyLabel: { ...type.labelCaps, color: colors.onSurfaceVariant },
   shieldBadge: {
     flexDirection: 'row',
     alignItems: 'center',

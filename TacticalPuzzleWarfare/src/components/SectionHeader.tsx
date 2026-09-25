@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { colors, spacing, type } from '../theme';
+import { trUpper } from '../utils/text';
 
 interface SectionHeaderProps {
   title: string;
@@ -14,7 +15,7 @@ export function SectionHeader({ title, subtitle, right }: SectionHeaderProps) {
     <View style={styles.row}>
       <View style={styles.accentBar} />
       <View style={{ flex: 1 }}>
-        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.title}>{trUpper(title)}</Text>
         {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
       </View>
       {right}
@@ -40,6 +41,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 4,
   },
-  title: { ...type.headlineSm, color: colors.primary, textTransform: 'uppercase', letterSpacing: 0.6 },
+  title: { ...type.headlineSm, color: colors.primary, letterSpacing: 0.6 },
   subtitle: { ...type.bodyMd, color: colors.onSurfaceVariant, marginTop: 2 },
 });

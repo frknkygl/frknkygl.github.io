@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import type { HeroDef } from '../data/types';
 import type { OwnedHeroState } from '../store/types';
 import { colors, radius, rarityColors, spacing, type } from '../theme';
+import { trUpper } from '../utils/text';
 import { HeroPortrait } from './HeroPortrait';
 import { Icon } from './Icon';
 
@@ -25,7 +26,7 @@ export function HeroCard({ hero, owned, onPress, selected, locked }: HeroCardPro
       disabled={!onPress}
       style={({ pressed }) => [
         styles.card,
-        { borderColor: selected ? colors.primary : colors.outlineVariant },
+        { borderColor: selected ? colors.primary : `${rc.text}55` },
         selected && styles.selected,
         pressed && styles.pressed,
       ]}
@@ -43,7 +44,7 @@ export function HeroCard({ hero, owned, onPress, selected, locked }: HeroCardPro
       </Text>
       <View style={styles.metaRow}>
         <Text style={[styles.rarity, { color: rc.text }]} numberOfLines={1}>
-          {rc.label}
+          {trUpper(rc.label)}
         </Text>
         {isOwned ? <Text style={styles.level}>Sv.{owned!.level}</Text> : null}
       </View>
@@ -60,12 +61,16 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surfaceContainer,
     alignItems: 'center',
     gap: 4,
+    shadowColor: '#000',
+    shadowOpacity: 0.5,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 3 },
   },
   selected: {
     backgroundColor: colors.surfaceContainerHigh,
     shadowColor: colors.primary,
-    shadowOpacity: 0.5,
-    shadowRadius: 6,
+    shadowOpacity: 0.6,
+    shadowRadius: 8,
   },
   pressed: { opacity: 0.85 },
   lockOverlay: {
@@ -81,6 +86,6 @@ const styles = StyleSheet.create({
   },
   name: { ...type.bodyLg, color: colors.onSurface, fontSize: 12 },
   metaRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  rarity: { ...type.labelXs, textTransform: 'uppercase' },
+  rarity: { ...type.labelXs },
   level: { ...type.labelXs, color: colors.onSurfaceVariant },
 });

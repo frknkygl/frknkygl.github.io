@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Alert, Image, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 
-import { AppHeader, PrimaryButton, ScreenBackground, SectionHeader, StatBar } from '../../components';
+import {
+  AppHeader,
+  HeroPortrait,
+  Icon,
+  OrnateFrame,
+  PrimaryButton,
+  ScreenBackground,
+  SectionHeader,
+  StatBar,
+} from '../../components';
+import { CHAPTERS } from '../../data/stages';
+import { HERO_MAP } from '../../data/heroes';
 import { images } from '../../theme/images';
-import { colors, radius, spacing, type } from '../../theme';
+import { colors, elementColors, radius, spacing, type } from '../../theme';
 import { useGameStore } from '../../store/useGameStore';
-import { xpToNextLevel } from '../../store/helpers';
+import { computeHeroRuntime, xpToNextLevel } from '../../store/helpers';
+import { trUpper } from '../../utils/text';
 
 export default function ProfileScreen() {
   const playerLevel = useGameStore((s) => s.playerLevel);
@@ -15,11 +27,24 @@ export default function ProfileScreen() {
   const toggleHaptics = useGameStore((s) => s.toggleHaptics);
   const toggleSound = useGameStore((s) => s.toggleSound);
   const resetProgress = useGameStore((s) => s.resetProgress);
-  const ownedHeroesCount = useGameStore((s) => Object.keys(s.ownedHeroes).length);
+  const ownedHeroes = useGameStore((s) => s.ownedHeroes);
+  const squad = useGameStore((s) => s.squad);
   const stageProgress = useGameStore((s) => s.stageProgress);
 
+  const ownedHeroesCount = Object.keys(ownedHeroes).length;
   const clearedStages = Object.values(stageProgress).filter((p) => p.cleared).length;
+  const totalStars = Object.values(stageProgress).reduce((sum, p) => sum + p.stars, 0);
   const needed = xpToNextLevel(playerLevel);
+
+  const squadPower = useMemo(() => {
+    return squad.reduce((sum, heroId) => {
+      const owned = ownedHeroes[heroId];
+      if (!owned) return sum;
+      const stats = computeHeroRuntime(heroId, owned);
+      if (!stats) return sum;
+      return sum + stats.atk + stats.def + Math.round(stats.hp / 10);
+    }, 0);
+  }, [squad, ownedHeroes]);
 
   const handleReset = () => {
     Alert.alert(
@@ -36,23 +61,63 @@ export default function ProfileScreen() {
     <ScreenBackground>
       <AppHeader title="Profil" subtitle="Komutan bilgileri ve ayarlar" />
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <View style={styles.profileCard}>
+        <OrnateFrame accentColor={colors.primary} style={styles.profileCard}>
           <Image source={images.portraitCommander} style={styles.avatar} />
           <View style={{ flex: 1, gap: 6 }}>
-            <Text style={styles.name}>Lord Malakor'un Komutanı</Text>
-            <StatBar value={playerXp} max={needed} color={colors.primary} label={`Seviye ${playerLevel}`} valueLabel={`${playerXp}/${needed} XP`} />
+            <Text style={styles.name}>Lord Malakor&apos;un Komutanı</Text>
+            <StatBar
+              value={playerXp}
+              max={needed}
+              color={colors.primary}
+              label={`Seviye ${playerLevel}`}
+              valueLabel={`${playerXp}/${needed} XP`}
+            />
           </View>
+        </OrnateFrame>
+
+        <View style={styles.statsGrid}>
+          <StatBox icon="account-group" value={ownedHeroesCount} label="Kahraman" />
+          <StatBox icon="map-check" value={clearedStages} label="Tamamlanan Sefer" />
+          <StatBox icon="star" value={totalStars} label="Toplam Yıldız" />
+          <StatBox icon="sword-cross" value={squadPower} label="Birlik Gücü" />
         </View>
 
-        <View style={styles.statsRow}>
-          <View style={styles.statBox}>
-            <Text style={styles.statValue}>{ownedHeroesCount}</Text>
-            <Text style={styles.statLabel}>Kahraman</Text>
-          </View>
-          <View style={styles.statBox}>
-            <Text style={styles.statValue}>{clearedStages}</Text>
-            <Text style={styles.statLabel}>Tamamlanan Sefer</Text>
-          </View>
+        <SectionHeader title="Aktif Birlik" subtitle={`${squad.length}/3 kahraman sefere hazır`} />
+        <View style={styles.squadRow}>
+          {squad.length > 0 ? (
+            squad.map((heroId) => {
+              const hero = HERO_MAP[heroId];
+              if (!hero) return null;
+              return (
+                <View key={heroId} style={styles.squadItem}>
+                  <HeroPortrait hero={hero} size={52} />
+                  <Text style={styles.squadName} numberOfLines={1}>
+                    {hero.name.split(' ')[0]}
+                  </Text>
+                </View>
+              );
+            })
+          ) : (
+            <Text style={styles.emptySquad}>Kahramanlar sekmesinden birliğini seç.</Text>
+          )}
+        </View>
+
+        <SectionHeader title="Sefer İlerlemesi" subtitle="Bölüm başına tamamlanma oranı" />
+        <View style={styles.chaptersBox}>
+          {CHAPTERS.map((chapter) => {
+            const cleared = chapter.stageIds.filter((id) => stageProgress[id]?.cleared).length;
+            const ec = elementColors[chapter.element];
+            return (
+              <StatBar
+                key={chapter.id}
+                value={cleared}
+                max={chapter.stageIds.length}
+                color={ec.core}
+                label={chapter.name}
+                valueLabel={`${cleared}/${chapter.stageIds.length}`}
+              />
+            );
+          })}
         </View>
 
         <SectionHeader title="Ayarlar" />
@@ -74,6 +139,16 @@ export default function ProfileScreen() {
   );
 }
 
+function StatBox({ icon, value, label }: { icon: React.ComponentProps<typeof Icon>['name']; value: number; label: string }) {
+  return (
+    <View style={styles.statBox}>
+      <Icon name={icon} size={18} color={colors.primary} />
+      <Text style={styles.statValue}>{value}</Text>
+      <Text style={styles.statLabel}>{trUpper(label)}</Text>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   content: { padding: spacing.margin, gap: spacing.md },
   profileCard: {
@@ -81,9 +156,8 @@ const styles = StyleSheet.create({
     gap: spacing.md,
     alignItems: 'center',
     backgroundColor: colors.surfaceContainer,
-    borderRadius: radius.lg,
-    borderWidth: 1.5,
-    borderColor: 'rgba(242,195,107,0.28)',
+    borderWidth: 2,
+    borderColor: 'rgba(0,0,0,0.6)',
     padding: spacing.md,
     shadowColor: '#000',
     shadowOpacity: 0.5,
@@ -92,18 +166,39 @@ const styles = StyleSheet.create({
   },
   avatar: { width: 64, height: 64, borderRadius: radius.lg, borderWidth: 2, borderColor: colors.primary },
   name: { ...type.headlineSm, color: colors.primary },
-  statsRow: { flexDirection: 'row', gap: spacing.sm },
+  statsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   statBox: {
-    flex: 1,
+    width: '47%',
     backgroundColor: colors.surfaceContainer,
     borderRadius: radius.lg,
     borderWidth: 1.5,
     borderColor: 'rgba(242,195,107,0.22)',
     padding: spacing.md,
     alignItems: 'center',
+    gap: 2,
   },
   statValue: { ...type.statLg, color: colors.primary },
-  statLabel: { ...type.labelCaps, color: colors.onSurfaceVariant, textTransform: 'uppercase', marginTop: 2 },
+  statLabel: { ...type.labelCaps, color: colors.onSurfaceVariant, marginTop: 2 },
+  squadRow: {
+    flexDirection: 'row',
+    gap: spacing.md,
+    backgroundColor: colors.surfaceContainer,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: colors.outlineVariant,
+    padding: spacing.md,
+  },
+  squadItem: { alignItems: 'center', gap: 4, width: 60 },
+  squadName: { ...type.labelXs, color: colors.onSurfaceVariant },
+  emptySquad: { ...type.bodyMd, color: colors.onSurfaceVariant },
+  chaptersBox: {
+    backgroundColor: colors.surfaceContainer,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: colors.outlineVariant,
+    padding: spacing.md,
+    gap: spacing.sm,
+  },
   settingRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',

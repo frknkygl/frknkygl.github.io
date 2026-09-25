@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, View, type ImageSourcePropType } from 'react-native';
+import { Image, StyleSheet, Text, View, type ImageSourcePropType } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import type { HeroDef } from '../data/types';
@@ -21,6 +21,8 @@ export function HeroPortrait({ hero, size = 64, showRarityBorder = true }: HeroP
   const art = hero.hasArt ? HERO_ART[hero.id] : undefined;
   const ec = elementColors[hero.element];
   const rc = rarityColors[hero.rarity];
+  const initial = hero.name.replace(/^(Lord|Lady)\s+/i, '').charAt(0).toLocaleUpperCase('tr-TR');
+  const badgeSize = Math.max(16, Math.round(size * 0.32));
 
   return (
     <View
@@ -38,18 +40,44 @@ export function HeroPortrait({ hero, size = 64, showRarityBorder = true }: HeroP
       {art ? (
         <Image source={art} style={StyleSheet.absoluteFill} resizeMode="cover" />
       ) : (
-        <LinearGradient
-          colors={[ec.core, '#0f0e11']}
-          style={StyleSheet.absoluteFill}
-          start={{ x: 0.1, y: 0 }}
-          end={{ x: 0.9, y: 1 }}
-        />
+        <>
+          <LinearGradient
+            colors={[ec.core, '#0f0e11']}
+            style={StyleSheet.absoluteFill}
+            start={{ x: 0.05, y: 0 }}
+            end={{ x: 0.95, y: 1 }}
+          />
+          <LinearGradient
+            colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.55)']}
+            style={StyleSheet.absoluteFill}
+            start={{ x: 0.5, y: 0.35 }}
+            end={{ x: 0.5, y: 1 }}
+          />
+          <Text
+            style={[
+              styles.initial,
+              { fontSize: Math.round(size * 0.5), lineHeight: Math.round(size * 0.58) },
+            ]}
+          >
+            {initial}
+          </Text>
+          <View
+            style={[
+              styles.elementBadge,
+              {
+                width: badgeSize,
+                height: badgeSize,
+                borderRadius: badgeSize / 2,
+                right: size * 0.05,
+                bottom: size * 0.05,
+                borderColor: ec.core,
+              },
+            ]}
+          >
+            <Icon name={ELEMENT_ICON[hero.element]} size={Math.round(badgeSize * 0.6)} color={ec.core} />
+          </View>
+        </>
       )}
-      {!art ? (
-        <View style={styles.iconOverlay}>
-          <Icon name={ELEMENT_ICON[hero.element]} size={Math.round(size * 0.42)} color="rgba(255,255,255,0.92)" />
-        </View>
-      ) : null}
     </View>
   );
 }
@@ -64,12 +92,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 6,
   },
-  iconOverlay: {
+  initial: {
+    fontFamily: 'EBGaramond_700Bold',
+    color: 'rgba(255,255,255,0.92)',
+    textShadowColor: 'rgba(0,0,0,0.6)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
+  },
+  elementBadge: {
     position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
+    backgroundColor: 'rgba(15,14,17,0.85)',
+    borderWidth: 1.5,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { elementColors, type ElementId, spacing, type } from '../theme';
+import { trUpper } from '../utils/text';
 import { ELEMENT_ICON, Icon } from './Icon';
 
 interface ElementBadgeProps {
@@ -29,7 +30,7 @@ export function ElementBadge({ element, size = 'sm', showLabel }: ElementBadgePr
       >
         <Icon name={ELEMENT_ICON[element]} size={size === 'sm' ? 12 : 16} color={c.core} />
       </View>
-      {showLabel ? <Text style={[styles.label, { color: c.core }]}>{c.label}</Text> : null}
+      {showLabel ? <Text style={[styles.label, { color: c.core }]}>{trUpper(c.label)}</Text> : null}
     </View>
   );
 }
@@ -44,5 +45,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.6,
     shadowRadius: 5,
   },
-  label: { ...type.labelCaps, textTransform: 'uppercase' },
+  label: { ...type.labelCaps },
 });

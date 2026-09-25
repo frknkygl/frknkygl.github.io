@@ -9,6 +9,7 @@ import { HERO_MAP } from '../../data/heroes';
 import { colors, radius, rarityColors, spacing, type } from '../../theme';
 import { images } from '../../theme/images';
 import { useGameStore } from '../../store/useGameStore';
+import { playSound } from '../../utils/sound';
 
 export default function ChestOpenScreen() {
   const router = useRouter();
@@ -16,6 +17,7 @@ export default function ChestOpenScreen() {
   const clearLastChestResult = useGameStore((s) => s.clearLastChestResult);
 
   useEffect(() => {
+    playSound('chestOpen');
     return () => clearLastChestResult();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -9,6 +9,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { colors, type } from '../../theme';
+import { trUpper } from '../../utils/text';
 
 export interface CombatPopup {
   id: number;
@@ -41,7 +42,7 @@ export function FloatingCombatText({ popup, onDone }: { popup: CombatPopup; onDo
   return (
     <Animated.View style={[styles.wrap, style]} pointerEvents="none">
       <Text style={[styles.text, { color: popup.color ?? colors.secondary }]}>{popup.text}</Text>
-      {popup.sub ? <Text style={styles.sub}>{popup.sub}</Text> : null}
+      {popup.sub ? <Text style={styles.sub}>{trUpper(popup.sub)}</Text> : null}
     </Animated.View>
   );
 }
@@ -63,7 +64,6 @@ const styles = StyleSheet.create({
   sub: {
     ...type.labelCaps,
     color: colors.primary,
-    textTransform: 'uppercase',
     marginTop: 2,
   },
 });

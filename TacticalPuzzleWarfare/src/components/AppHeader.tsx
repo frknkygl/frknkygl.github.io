@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ENERGY_MAX, useGameStore } from '../store/useGameStore';
 import { colors, spacing, type } from '../theme';
 import { images } from '../theme/images';
+import { trUpper } from '../utils/text';
 import { CurrencyPill } from './CurrencyPill';
 
 interface AppHeaderProps {
@@ -28,7 +29,7 @@ export function AppHeader({ title, subtitle }: AppHeaderProps) {
           </Text>
           {subtitle ? (
             <Text style={styles.subtitle} numberOfLines={1}>
-              {subtitle}
+              {trUpper(subtitle)}
             </Text>
           ) : null}
         </View>
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   title: { ...type.headlineLg, color: colors.primary, letterSpacing: 0.4 },
-  subtitle: { ...type.labelCaps, color: colors.onSurfaceVariant, marginTop: 2, textTransform: 'uppercase' },
+  subtitle: { ...type.labelCaps, color: colors.onSurfaceVariant, marginTop: 2 },
   currencyRow: { flexDirection: 'row', gap: spacing.sm },
   accentLine: {
     height: 2,
