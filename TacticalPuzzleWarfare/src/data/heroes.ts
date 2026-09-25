@@ -21,6 +21,11 @@ export const HEROES: HeroDef[] = [
     ultimatePower: 6,
     hasArt: true,
     lore: 'Yanmış bir krallığın küllerinden doğan komutan, ordusunu intikam ateşiyle yönetir.',
+    story: [
+      'Kızıl Topraklar bir gecede küle döndüğünde, enkazın altından tek başına çıkan adam Malakor\'du. Zırhı erimiş, sesi kısılmıştı; ama gözlerindeki ateş hiç sönmedi.',
+      'Kraliyet ordusunun geriye kalanlarını topladı ve her birine aynı yemini ettirdi: bu külleri savuran rüzgârı bulacaklardı, ne kadar sürerse sürsün.',
+      'Bugün Kara Muhafızlar\'ın sancağı altında yürüyenler bilir ki Malakor\'un öfkesi hiç dinmedi — yalnızca disipline dönüştü.',
+    ],
   },
   {
     id: 'sera',
@@ -42,6 +47,11 @@ export const HEROES: HeroDef[] = [
     ultimatePower: 3.2,
     hasArt: false,
     lore: 'Köyünü yakan orduya katılmak yerine, onların külleri üstünde yürümeyi seçti.',
+    story: [
+      'Sera on üç yaşındayken köyü bir gecede haritadan silindi. Askerler ona da aynısını yapmak isterken alevler onu tanıdı — ve yakmadı.',
+      'O günden beri ateşle garip bir anlaşması var: ateş onu asla terk etmeyecek, o da asla söndürmeyecek. Cephe hatlarında koşan bir gölge oldu, arkasında yalnızca kül bırakan bir isim.',
+      'Malakor\'un ordusuna katılmadı; onunla yan yana yürüyor — kendi savaşını kazanana kadar hiçbir sancağın altında durmayacağını söyleyerek.',
+    ],
   },
   {
     id: 'elyth',
@@ -63,6 +73,11 @@ export const HEROES: HeroDef[] = [
     ultimatePower: 0.32,
     hasArt: false,
     lore: 'Katedral yıkılırken tek kurtardığı şey inancıydı; şimdi onu bir silah gibi kullanıyor.',
+    story: [
+      'Unutulmuş Katedral çöktüğünde enkazın altında hayatta kalan tek şey Elyth\'in duasıydı. Diğer rahibeler kaçarken o kaldı, yaralıları taşların arasından tek tek çıkardı.',
+      'Üç gün üç gece dua etti; ne yemek ne su istedi. Dördüncü gün, elleri artık sadece yara sarmıyor, ışığı bir silah gibi yönlendiriyordu.',
+      'Şimdi Katedral\'in son ışığı olarak savaş meydanlarında dolaşıyor, her yaralı askeri kendi kız kardeşiymiş gibi iyileştiriyor.',
+    ],
   },
   {
     id: 'toren',
@@ -84,6 +99,11 @@ export const HEROES: HeroDef[] = [
     ultimatePower: 1,
     hasArt: false,
     lore: 'Eski tapınağın son rahibi, artık savaş alanında vaaz veriyor.',
+    story: [
+      'Toren gençliğinde vaaz vermek için yetiştirildi, kılıç kuşanmak için değil. Sesindeki inanç, tapınağın en sert kalbini bile yumuşatabilirdi.',
+      'Ama tapınağı düştüğü gün öğrendi ki bazen bir kalkan, bin vaazdan daha fazla can kurtarır. O gün kalkanını kaldırdı ve bir daha hiç indirmedi.',
+      'Şimdi savaş alanında dua eder gibi kalkanını kaldırıyor; her darbeyi arkasındakiler için kendi bedeniyle karşılıyor.',
+    ],
   },
   {
     id: 'fenwyr',
@@ -105,6 +125,11 @@ export const HEROES: HeroDef[] = [
     ultimatePower: 4.2,
     hasArt: false,
     lore: 'Bataklığın en yaşlı ağacından fısıldayan ruhlarla konuşabilen tek kişi.',
+    story: [
+      'Yeşil Bataklık\'ın kalbindeki bin yıllık ağaç, yüzyıllardır yalnızca tek bir kişiyle konuştu: Fenwyr.',
+      'Ağacın kökleri ona bataklığın hafızasını gösterdi — kimin geçtiğini, kimin geçmediğini, kimin bir daha asla geri dönmediğini.',
+      'Şimdi o hafızayı bir silaha çeviriyor; dikenlerini düşmanlarının en karanlık anılarına doğrultuyor.',
+    ],
   },
   {
     id: 'skarn',
@@ -126,6 +151,11 @@ export const HEROES: HeroDef[] = [
     ultimatePower: 2.6,
     hasArt: false,
     lore: 'Bataklığın hiçbir yaratığı onun tuzaklarından kaçamadı; artık daha büyük avlar peşinde.',
+    story: [
+      'Skarn bataklıkta doğdu, bataklıkta büyüdü ve hayatta kalmayı en zor yoldan öğrendi. Onun için tuzak kurmak, nefes almak kadar doğaldı.',
+      'Yıllarca bataklığın en tehlikeli yaratıklarını avladı; her biri bir sonraki tuzağının parçası oldu, her deri yeni bir hileye dönüştü.',
+      'Şimdi gözü çok daha büyük bir av peşinde: bataklığı zehirleyip kirletenler.',
+    ],
   },
   {
     id: 'baldrik',
@@ -147,6 +177,11 @@ export const HEROES: HeroDef[] = [
     ultimatePower: 1.6,
     hasArt: false,
     lore: 'Demir Kale hiç düşmedi çünkü Baldrik kapılarının önünde nöbet tutmaya devam ediyor.',
+    story: [
+      'Baldrik otuz yıldır Demir Kale\'nin kapılarında nöbet tutuyor; tek bir gece bile kaçırmadı.',
+      'Kale kuşatma altındayken bile kapılardan ayrılmadı. Kalkanı kırıldı, zırhı paslandı ama o hiçbir zaman bir adım geri çekilmedi.',
+      'Askerleri ona "Çelik Duvar" diyor — çünkü o duvar hiç yıkılmadı, Baldrik yıkılmadığı sürece de yıkılmayacak.',
+    ],
   },
   {
     id: 'yrsa',
@@ -168,6 +203,11 @@ export const HEROES: HeroDef[] = [
     ultimatePower: 3.4,
     hasArt: false,
     lore: 'Demir Kale muhafızlarının en genci, en inatçısı olmayı başardı.',
+    story: [
+      'Yrsa, Demir Kale\'ye en genç muhafız olarak katıldı — herkesin şüpheyle baktığı bir çocuktu.',
+      'Baldrik\'in yanında eğitim gördü, her düşüşünde yeniden ayağa kalktı, ta ki hiç kimse onun yaşını sormaz oldu.',
+      'Şimdi kalkanı Baldrik\'inki kadar ağır, inadı ise ondan bile fazla.',
+    ],
   },
   {
     id: 'nyx',
@@ -189,6 +229,11 @@ export const HEROES: HeroDef[] = [
     ultimatePower: 5.4,
     hasArt: false,
     lore: 'Gölge Diyarı ona bir isim vermedi; o ismini diyardan çaldı.',
+    story: [
+      'Gölge Diyarı\'na giren hiç kimse aynı çıkmaz; çoğu hiç çıkmaz. Nyx içeri girdi ve diyarın bir parçasını beraberinde dışarı taşıdı.',
+      'Şimdi bedeninde kozmik girdabın bir kırıntısı yaşıyor; her adımında gölgeler ona sadık bir sürü gibi eşlik ediyor.',
+      'Kendi eski ismini bile hatırlamıyor artık — Nyx, diyarın ona bıraktığı tek şey.',
+    ],
   },
   {
     id: 'morwen',
@@ -210,6 +255,11 @@ export const HEROES: HeroDef[] = [
     ultimatePower: 3,
     hasArt: false,
     lore: 'Her söylediği kehanet bir savaş kaybettirdi; artık kimse onu dinlemek istemiyor, dinlemek zorunda kalana kadar.',
+    story: [
+      'Morwen\'in gördüğü her gelecek bir felaketle bitiyor. Onu dinleyenler savaşı kaybetti; dinlemeyenler de.',
+      'Krallar onu saraylarından kovdu, generaller susturmaya çalıştı — ama kehanetleri hep, acı bir şekilde doğru çıktı.',
+      'Şimdi savaş meydanında kimsenin duymak istemediği gerçekleri söylüyor, ta ki en son anda birileri dinlemek zorunda kalana kadar.',
+    ],
   },
 ];
 

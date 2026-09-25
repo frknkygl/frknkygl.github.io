@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
-import { ElementBadge, HeroPortrait, Icon, PrimaryButton, ScreenBackground, SectionHeader } from '../../components';
+import { ElementBadge, HeroPortrait, Icon, OrnateFrame, PrimaryButton, ScreenBackground, SectionHeader } from '../../components';
 import { GEAR } from '../../data/gear';
 import { HERO_MAP, MAX_HERO_LEVEL, heroStatAtLevel, heroUpgradeCost } from '../../data/heroes';
 import { colors, radius, rarityColors, spacing, type } from '../../theme';
@@ -84,7 +84,16 @@ export default function HeroDetailScreen() {
           </View>
         </View>
 
-        <Text style={styles.lore}>{hero.lore}</Text>
+        <SectionHeader title="Hikaye" />
+        <OrnateFrame accentColor={rc.text} style={styles.storyFrame} cornerSize={14}>
+          <Text style={styles.storyQuote}>{hero.lore}</Text>
+          <View style={[styles.storyDivider, { backgroundColor: `${rc.text}55` }]} />
+          {hero.story.map((paragraph, i) => (
+            <Text key={i} style={styles.storyParagraph}>
+              {paragraph}
+            </Text>
+          ))}
+        </OrnateFrame>
 
         {owned ? (
           <>
@@ -188,7 +197,22 @@ const styles = StyleSheet.create({
   badgeRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginTop: 4 },
   rarity: { ...type.labelCaps },
   level: { ...type.labelCaps, color: colors.onSurfaceVariant },
-  lore: { ...type.bodyLg, color: colors.onSurfaceVariant, fontStyle: 'italic', marginTop: spacing.sm },
+  storyFrame: {
+    backgroundColor: colors.surfaceContainer,
+    borderWidth: 1,
+    borderColor: colors.outlineVariant,
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    gap: spacing.sm,
+    marginBottom: spacing.xs,
+  },
+  storyQuote: {
+    ...type.bodyLg,
+    color: colors.onSurface,
+    fontStyle: 'italic',
+  },
+  storyDivider: { height: 1, alignSelf: 'stretch' },
+  storyParagraph: { ...type.bodyMd, color: colors.onSurfaceVariant, lineHeight: 21 },
   statsGrid: { flexDirection: 'row', gap: spacing.sm },
   statChip: {
     flex: 1,

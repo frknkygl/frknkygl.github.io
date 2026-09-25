@@ -33,6 +33,7 @@ export interface HeroDef {
   ultimatePower: number;
   hasArt: boolean;
   lore: string;
+  story: string[];
 }
 
 export type GearSlot = 'weapon' | 'armor' | 'relic';
