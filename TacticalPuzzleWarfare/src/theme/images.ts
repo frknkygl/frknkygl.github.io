@@ -18,6 +18,12 @@ import bossThrell from '../../assets/images/boss-threll.jpg';
 import bossDrevahl from '../../assets/images/boss-drevahl.jpg';
 import bossNyxReflection from '../../assets/images/boss-nyx-reflection.jpg';
 
+import portraitSera from '../../assets/images/portrait-sera.jpg';
+import portraitElyth from '../../assets/images/portrait-elyth.jpg';
+import portraitFenwyr from '../../assets/images/portrait-fenwyr.jpg';
+import portraitBaldrik from '../../assets/images/portrait-baldrik.jpg';
+import portraitNyx from '../../assets/images/portrait-nyx.jpg';
+
 export const images = {
   sigil,
   portraitCommander,
@@ -35,6 +41,11 @@ export const images = {
   bossThrell,
   bossDrevahl,
   bossNyxReflection,
+  portraitSera,
+  portraitElyth,
+  portraitFenwyr,
+  portraitBaldrik,
+  portraitNyx,
 };
 
 export const elementRuneImage = {

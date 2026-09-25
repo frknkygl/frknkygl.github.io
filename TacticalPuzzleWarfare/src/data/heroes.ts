@@ -45,7 +45,7 @@ export const HEROES: HeroDef[] = [
     ultimateCost: 10,
     ultimateKind: 'lineBreaker',
     ultimatePower: 3.2,
-    hasArt: false,
+    hasArt: true,
     lore: 'Köyünü yakan orduya katılmak yerine, onların külleri üstünde yürümeyi seçti.',
     story: [
       'Sera on üç yaşındayken köyü bir gecede haritadan silindi. Askerler ona da aynısını yapmak isterken alevler onu tanıdı — ve yakmadı.',
@@ -71,7 +71,7 @@ export const HEROES: HeroDef[] = [
     ultimateCost: 12,
     ultimateKind: 'heal',
     ultimatePower: 0.32,
-    hasArt: false,
+    hasArt: true,
     lore: 'Katedral yıkılırken tek kurtardığı şey inancıydı; şimdi onu bir silah gibi kullanıyor.',
     story: [
       'Unutulmuş Katedral çöktüğünde enkazın altında hayatta kalan tek şey Elyth\'in duasıydı. Diğer rahibeler kaçarken o kaldı, yaralıları taşların arasından tek tek çıkardı.',
@@ -123,7 +123,7 @@ export const HEROES: HeroDef[] = [
     ultimateCost: 12,
     ultimateKind: 'areaBomb',
     ultimatePower: 4.2,
-    hasArt: false,
+    hasArt: true,
     lore: 'Bataklığın en yaşlı ağacından fısıldayan ruhlarla konuşabilen tek kişi.',
     story: [
       'Yeşil Bataklık\'ın kalbindeki bin yıllık ağaç, yüzyıllardır yalnızca tek bir kişiyle konuştu: Fenwyr.',
@@ -175,7 +175,7 @@ export const HEROES: HeroDef[] = [
     ultimateCost: 13,
     ultimateKind: 'shield',
     ultimatePower: 1.6,
-    hasArt: false,
+    hasArt: true,
     lore: 'Demir Kale hiç düşmedi çünkü Baldrik kapılarının önünde nöbet tutmaya devam ediyor.',
     story: [
       'Baldrik otuz yıldır Demir Kale\'nin kapılarında nöbet tutuyor; tek bir gece bile kaçırmadı.',
@@ -227,7 +227,7 @@ export const HEROES: HeroDef[] = [
     ultimateCost: 15,
     ultimateKind: 'prismBomb',
     ultimatePower: 5.4,
-    hasArt: false,
+    hasArt: true,
     lore: 'Gölge Diyarı ona bir isim vermedi; o ismini diyardan çaldı.',
     story: [
       'Gölge Diyarı\'na giren hiç kimse aynı çıkmaz; çoğu hiç çıkmaz. Nyx içeri girdi ve diyarın bir parçasını beraberinde dışarı taşıdı.',

@@ -15,6 +15,11 @@ interface HeroPortraitProps {
 
 const HERO_ART: Record<string, ImageSourcePropType> = {
   malakor: images.portraitCommander,
+  sera: images.portraitSera,
+  elyth: images.portraitElyth,
+  fenwyr: images.portraitFenwyr,
+  baldrik: images.portraitBaldrik,
+  nyx: images.portraitNyx,
 };
 
 export function HeroPortrait({ hero, size = 64, showRarityBorder = true }: HeroPortraitProps) {
