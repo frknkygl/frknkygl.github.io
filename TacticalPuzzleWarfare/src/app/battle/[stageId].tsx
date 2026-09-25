@@ -17,6 +17,7 @@ import type { Pos } from '../../game/types';
 import { buildSquadRuntime } from '../../store/helpers';
 import { useGameStore } from '../../store/useGameStore';
 import { colors, elementColors, radius, spacing, type } from '../../theme';
+import { bossArtByStageId } from '../../theme/images';
 import { playSound } from '../../utils/sound';
 import { trUpper } from '../../utils/text';
 
@@ -194,7 +195,12 @@ export default function BattleScreen() {
           </View>
 
           <View style={styles.bossRow}>
-            <BossAvatar element={stage.bossElement} isBoss={stage.isChapterBoss} size={72} />
+            <BossAvatar
+              element={stage.bossElement}
+              isBoss={stage.isChapterBoss}
+              size={bossArtByStageId[stage.id] ? 88 : 72}
+              artSource={bossArtByStageId[stage.id]}
+            />
             <View style={{ flex: 1, gap: 6 }}>
               <Text style={styles.bossName} numberOfLines={2}>
                 {stage.bossName.toLocaleUpperCase('tr-TR')}

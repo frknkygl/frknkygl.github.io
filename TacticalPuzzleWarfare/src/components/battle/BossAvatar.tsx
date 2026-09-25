@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View, type ImageSourcePropType } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, {
   Easing,
@@ -17,11 +17,14 @@ interface BossAvatarProps {
   element: ElementId;
   isBoss: boolean;
   size?: number;
+  artSource?: ImageSourcePropType;
 }
 
-// No unique per-enemy art exists yet, so this composes a stylized sigil
-// (rotating rune ring + layered element/skull glyph) instead of a static icon.
-export function BossAvatar({ element, isBoss, size = 76 }: BossAvatarProps) {
+// Falls back to a stylized sigil (rotating rune ring + layered element/skull
+// glyph) when no unique art exists for this enemy; renders the real
+// illustration when `artSource` is provided (currently the five chapter
+// bosses).
+export function BossAvatar({ element, isBoss, size = 76, artSource }: BossAvatarProps) {
   const ec = elementColors[element];
   const rotation = useSharedValue(0);
   const pulse = useSharedValue(0);
@@ -73,14 +76,20 @@ export function BossAvatar({ element, isBoss, size = 76 }: BossAvatarProps) {
           glowStyle,
         ]}
       >
-        <LinearGradient
-          colors={[ec.core, '#0f0e11']}
-          style={StyleSheet.absoluteFill}
-          start={{ x: 0.1, y: 0 }}
-          end={{ x: 0.9, y: 1 }}
-        />
-        <Icon name={ELEMENT_ICON[element]} size={Math.round(size * 0.62)} color="rgba(255,255,255,0.22)" style={styles.auraIcon} />
-        <Icon name={isBoss ? 'skull-crossbones' : 'sword-cross'} size={Math.round(size * 0.44)} color="#fff" />
+        {artSource ? (
+          <Image source={artSource} style={StyleSheet.absoluteFill} resizeMode="cover" />
+        ) : (
+          <>
+            <LinearGradient
+              colors={[ec.core, '#0f0e11']}
+              style={StyleSheet.absoluteFill}
+              start={{ x: 0.1, y: 0 }}
+              end={{ x: 0.9, y: 1 }}
+            />
+            <Icon name={ELEMENT_ICON[element]} size={Math.round(size * 0.62)} color="rgba(255,255,255,0.22)" style={styles.auraIcon} />
+            <Icon name={isBoss ? 'skull-crossbones' : 'sword-cross'} size={Math.round(size * 0.44)} color="#fff" />
+          </>
+        )}
       </Animated.View>
     </View>
   );

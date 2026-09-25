@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
@@ -9,6 +9,7 @@ import { GEAR_MAP } from '../../data/gear';
 import { HERO_MAP } from '../../data/heroes';
 import { nextStageId, STAGE_MAP } from '../../data/stages';
 import { colors, radius, spacing, type } from '../../theme';
+import { bossArtByStageId } from '../../theme/images';
 
 export default function VictoryScreen() {
   const { stageId, result, stars } = useLocalSearchParams<{ stageId: string; result: string; stars: string }>();
@@ -23,6 +24,7 @@ export default function VictoryScreen() {
   const shardHero = stage.heroShardDrop ? HERO_MAP[stage.heroShardDrop.heroId] : undefined;
   const gear = stage.gearDropId ? GEAR_MAP[stage.gearDropId] : undefined;
   const accent = won ? colors.primary : colors.secondary;
+  const bossArt = bossArtByStageId[stage.id];
 
   const handleClose = () => router.back();
   const handleNext = () => {
@@ -44,8 +46,21 @@ export default function VictoryScreen() {
             start={{ x: 0.5, y: 0 }}
             end={{ x: 0.5, y: 0.7 }}
           />
-          <View style={[styles.iconGlow, { backgroundColor: `${accent}22`, shadowColor: accent }]}>
-            <Icon name={won ? 'trophy' : 'skull-crossbones'} size={48} color={accent} />
+          <View style={[styles.iconGlow, { backgroundColor: `${accent}22`, shadowColor: accent, borderColor: accent }]}>
+            {bossArt ? (
+              <Image
+                source={bossArt}
+                style={[StyleSheet.absoluteFill, !won && styles.bossArtDefeatTint]}
+                resizeMode="cover"
+              />
+            ) : null}
+            {bossArt ? (
+              <View style={[styles.iconBadge, { backgroundColor: accent }]}>
+                <Icon name={won ? 'trophy' : 'skull-crossbones'} size={16} color={colors.surfaceContainer} />
+              </View>
+            ) : (
+              <Icon name={won ? 'trophy' : 'skull-crossbones'} size={48} color={accent} />
+            )}
           </View>
           <Text style={[styles.title, { color: accent }]}>{won ? 'ZAFER!' : 'YENİLGİ'}</Text>
           <Text style={styles.subtitle}>
@@ -129,6 +144,23 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.9,
     shadowRadius: 18,
     marginBottom: 2,
+    overflow: 'hidden',
+    borderWidth: 2,
+  },
+  bossArtDefeatTint: {
+    opacity: 0.55,
+  },
+  iconBadge: {
+    position: 'absolute',
+    bottom: -2,
+    right: -2,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: colors.surfaceContainer,
   },
   title: {
     ...type.displayHero,
