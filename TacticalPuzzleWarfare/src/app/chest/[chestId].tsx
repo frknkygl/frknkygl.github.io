@@ -3,7 +3,7 @@ import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
 
-import { Icon, PrimaryButton, type IconName } from '../../components';
+import { Icon, OrnateFrame, PrimaryButton, type IconName } from '../../components';
 import { GEAR_MAP } from '../../data/gear';
 import { HERO_MAP } from '../../data/heroes';
 import { colors, radius, rarityColors, spacing, type } from '../../theme';
@@ -28,44 +28,48 @@ export default function ChestOpenScreen() {
   return (
     <View style={styles.overlay}>
       <Animated.View entering={FadeIn.duration(250)} style={styles.backdrop} />
-      <Animated.View entering={ZoomIn.duration(320).springify().damping(14)} style={styles.card}>
-        <Image source={images.chestOpen} style={styles.chestArt} resizeMode="cover" />
-        <Text style={styles.title}>Kasa Açıldı!</Text>
+      <Animated.View entering={ZoomIn.duration(260)} style={styles.cardOuter}>
+        <OrnateFrame accentColor={colors.primary} style={styles.card} cornerSize={20}>
+          <View style={styles.chestGlow}>
+            <Image source={images.chestOpen} style={styles.chestArt} resizeMode="cover" />
+          </View>
+          <Text style={styles.title}>KASA AÇILDI!</Text>
 
-        <ScrollView style={styles.rewardsScroll} contentContainerStyle={styles.rewardsContent}>
-          {result ? (
-            <>
-              <RewardRow label="Altın" value={`+${result.gold.toLocaleString('tr-TR')}`} icon="cash" color={colors.primary} />
-              {result.gems > 0 ? (
-                <RewardRow label="Elmas" value={`+${result.gems}`} icon="diamond-stone" color={colors.tertiary} />
-              ) : null}
-              {result.heroShards.map((s) => {
-                const hero = HERO_MAP[s.heroId];
-                const rc = hero ? rarityColors[hero.rarity] : rarityColors.common;
-                return (
-                  <RewardRow
-                    key={s.heroId}
-                    label={hero ? `${hero.name}${s.newlyUnlocked ? ' (YENİ!)' : ''}` : s.heroId}
-                    value={`+${s.amount} kırıntı`}
-                    icon="account-group"
-                    color={rc.text}
-                  />
-                );
-              })}
-              {result.gear.map((g) => {
-                const gear = GEAR_MAP[g.gearId];
-                const rc = gear ? rarityColors[gear.rarity] : rarityColors.common;
-                return (
-                  <RewardRow key={g.gearId} label={gear?.name ?? g.gearId} value={`x${g.amount}`} icon="sword-cross" color={rc.text} />
-                );
-              })}
-            </>
-          ) : (
-            <Text style={styles.emptyText}>Ödül bulunamadı.</Text>
-          )}
-        </ScrollView>
+          <ScrollView style={styles.rewardsScroll} contentContainerStyle={styles.rewardsContent}>
+            {result ? (
+              <>
+                <RewardRow label="Altın" value={`+${result.gold.toLocaleString('tr-TR')}`} icon="cash" color={colors.primary} />
+                {result.gems > 0 ? (
+                  <RewardRow label="Elmas" value={`+${result.gems}`} icon="diamond-stone" color={colors.tertiary} />
+                ) : null}
+                {result.heroShards.map((s) => {
+                  const hero = HERO_MAP[s.heroId];
+                  const rc = hero ? rarityColors[hero.rarity] : rarityColors.common;
+                  return (
+                    <RewardRow
+                      key={s.heroId}
+                      label={hero ? `${hero.name}${s.newlyUnlocked ? ' (YENİ!)' : ''}` : s.heroId}
+                      value={`+${s.amount} kırıntı`}
+                      icon="account-group"
+                      color={rc.text}
+                    />
+                  );
+                })}
+                {result.gear.map((g) => {
+                  const gear = GEAR_MAP[g.gearId];
+                  const rc = gear ? rarityColors[gear.rarity] : rarityColors.common;
+                  return (
+                    <RewardRow key={g.gearId} label={gear?.name ?? g.gearId} value={`x${g.amount}`} icon="sword-cross" color={rc.text} />
+                  );
+                })}
+              </>
+            ) : (
+              <Text style={styles.emptyText}>Ödül bulunamadı.</Text>
+            )}
+          </ScrollView>
 
-        <PrimaryButton label="Devam Et" onPress={handleContinue} fullWidth />
+          <PrimaryButton label="Devam Et" onPress={handleContinue} fullWidth />
+        </OrnateFrame>
       </Animated.View>
     </View>
   );
@@ -93,19 +97,36 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: 'rgba(0,0,0,0.82)',
   },
+  cardOuter: { width: '86%', maxHeight: '80%' },
   card: {
-    width: '86%',
-    maxHeight: '80%',
     backgroundColor: colors.surfaceContainer,
-    borderRadius: radius.xl,
-    borderWidth: 1.5,
-    borderColor: colors.primaryFixedDim,
+    borderWidth: 2,
+    borderColor: 'rgba(0,0,0,0.7)',
     padding: spacing.lg,
     alignItems: 'center',
     gap: spacing.sm,
   },
-  chestArt: { width: 140, height: 140, borderRadius: radius.lg },
-  title: { ...type.headlineLg, color: colors.primary },
+  chestGlow: {
+    width: 156,
+    height: 156,
+    borderRadius: 999,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(242,195,107,0.12)',
+    shadowColor: colors.primary,
+    shadowOpacity: 0.8,
+    shadowRadius: 20,
+    marginBottom: 4,
+  },
+  chestArt: { width: 132, height: 132, borderRadius: radius.lg },
+  title: {
+    ...type.headlineLg,
+    color: colors.primary,
+    letterSpacing: 1,
+    textShadowColor: 'rgba(0,0,0,0.8)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
+  },
   rewardsScroll: { alignSelf: 'stretch', maxHeight: 260 },
   rewardsContent: { gap: 6 },
   rewardRow: {

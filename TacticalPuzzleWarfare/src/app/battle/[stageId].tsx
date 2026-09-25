@@ -4,7 +4,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import { ElementBadge, Icon, StatBar } from '../../components';
+import { ElementBadge, Icon, OrnateFrame, StatBar } from '../../components';
 import { FloatingCombatText, type CombatPopup } from '../../components/battle/FloatingCombatText';
 import { HeroUltimateSlot } from '../../components/battle/HeroUltimateSlot';
 import { PendingSwap, RuneBoard } from '../../components/battle/RuneBoard';
@@ -170,29 +170,45 @@ export default function BattleScreen() {
       </View>
 
       <View style={styles.bossSection}>
-        <View style={styles.bossRow}>
-          <View style={[styles.bossAvatar, { borderColor: ec.core, shadowColor: ec.core }]}>
-            <Icon name={stage.isChapterBoss ? 'skull-crossbones' : 'sword-cross'} size={30} color={colors.onSurface} />
-          </View>
-          <View style={{ flex: 1, gap: 4 }}>
-            <View style={styles.bossNameRow}>
-              <Text style={styles.bossName} numberOfLines={1}>
-                {stage.bossName}
+        <OrnateFrame accentColor={ec.core} style={styles.bossPanel}>
+          <LinearGradient
+            colors={[`${ec.core}3d`, 'transparent']}
+            start={{ x: 0.1, y: 0 }}
+            end={{ x: 0.9, y: 1 }}
+            style={StyleSheet.absoluteFill}
+          />
+          <View style={styles.bossTagRow}>
+            <View style={[styles.bossTag, { borderColor: ec.core }]}>
+              <Icon name={stage.isChapterBoss ? 'skull-crossbones' : 'sword-cross'} size={11} color={ec.core} />
+              <Text style={[styles.bossTagText, { color: ec.core }]}>
+                {stage.isChapterBoss ? 'BÖLÜM PATRONU' : 'DÜŞMAN DALGASI'}
               </Text>
-              <ElementBadge element={stage.bossElement} />
             </View>
-            <StatBar
-              value={battleState.bossHp}
-              max={battleState.bossMaxHp}
-              color={colors.vitality}
-              valueLabel={`${Math.round(battleState.bossHp).toLocaleString('tr-TR')}/${battleState.bossMaxHp.toLocaleString('tr-TR')}`}
-              height={14}
-            />
-            <Text style={styles.intentText}>
-              {battleState.bossStunned ? 'Sersemledi' : `${battleState.bossAttackCountdown} hamle sonra saldıracak`}
-            </Text>
+            <ElementBadge element={stage.bossElement} showLabel />
           </View>
-        </View>
+
+          <View style={styles.bossRow}>
+            <View style={[styles.bossAvatar, { borderColor: ec.core, shadowColor: ec.core }]}>
+              <LinearGradient colors={[ec.core, colors.surfaceContainerLowest]} style={StyleSheet.absoluteFill} />
+              <Icon name={stage.isChapterBoss ? 'skull-crossbones' : 'sword-cross'} size={34} color={colors.onSurface} />
+            </View>
+            <View style={{ flex: 1, gap: 6 }}>
+              <Text style={styles.bossName} numberOfLines={2}>
+                {stage.bossName.toLocaleUpperCase('tr-TR')}
+              </Text>
+              <StatBar
+                value={battleState.bossHp}
+                max={battleState.bossMaxHp}
+                color={colors.vitality}
+                valueLabel={`${Math.round(battleState.bossHp).toLocaleString('tr-TR')}/${battleState.bossMaxHp.toLocaleString('tr-TR')}`}
+                height={16}
+              />
+              <Text style={styles.intentText}>
+                {battleState.bossStunned ? '⚡ SERSEMLEDİ' : `${battleState.bossAttackCountdown} hamle sonra saldıracak`}
+              </Text>
+            </View>
+          </View>
+        </OrnateFrame>
 
         <View style={styles.partyRow}>
           <View style={{ flex: 1, gap: 4 }}>
@@ -264,21 +280,53 @@ const styles = StyleSheet.create({
   },
   movesText: { ...type.statMd, color: colors.onSurface, fontSize: 13 },
   bossSection: { paddingHorizontal: spacing.margin, gap: spacing.sm, paddingTop: spacing.sm },
-  bossRow: { flexDirection: 'row', gap: spacing.sm, alignItems: 'center' },
-  bossAvatar: {
-    width: 60,
-    height: 60,
+  bossPanel: {
+    backgroundColor: colors.surfaceContainerLowest,
+    borderWidth: 1.5,
+    borderColor: 'rgba(0,0,0,0.6)',
     borderRadius: radius.lg,
-    borderWidth: 2,
+    padding: spacing.md,
+    overflow: 'hidden',
+    gap: spacing.sm,
+    shadowColor: '#000',
+    shadowOpacity: 0.6,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 5 },
+  },
+  bossTagRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  bossTag: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    borderWidth: 1,
+    borderRadius: radius.sm,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
+  bossTagText: { ...type.labelXs, letterSpacing: 1 },
+  bossRow: { flexDirection: 'row', gap: spacing.md, alignItems: 'center' },
+  bossAvatar: {
+    width: 76,
+    height: 76,
+    borderRadius: radius.lg,
+    borderWidth: 2.5,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.surfaceContainerHigh,
-    shadowOpacity: 0.6,
-    shadowRadius: 8,
+    overflow: 'hidden',
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
   },
-  bossNameRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  bossName: { ...type.headlineSm, color: colors.onSurface, flex: 1 },
-  intentText: { ...type.labelXs, color: colors.onSurfaceVariant },
+  bossName: {
+    ...type.headlineLg,
+    color: colors.onSurface,
+    letterSpacing: 0.6,
+    textShadowColor: 'rgba(0,0,0,0.8)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
+  },
+  intentText: { ...type.labelCaps, color: colors.secondary, textTransform: 'uppercase' },
   partyRow: { flexDirection: 'row' },
   partyLabelRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   partyLabel: { ...type.labelCaps, color: colors.onSurfaceVariant, textTransform: 'uppercase' },
