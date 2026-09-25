@@ -1,6 +1,6 @@
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
-import Animated, { Easing, FadeIn, LinearTransition, ZoomOut } from 'react-native-reanimated';
+import { Image, StyleSheet, View, type ViewStyle } from 'react-native';
+import Animated, { Easing, FadeIn, LinearTransition, ZoomOut, type AnimatedStyle } from 'react-native-reanimated';
 
 import type { Tile } from '../../game/types';
 import { colors, elementColors } from '../../theme';
@@ -13,6 +13,8 @@ interface RuneTileProps {
   y: number;
   size: number;
   selected?: boolean;
+  dragging?: boolean;
+  dragStyle?: AnimatedStyle<ViewStyle>;
 }
 
 const SPECIAL_ICON = {
@@ -25,7 +27,7 @@ const SPECIAL_ICON = {
 // entering/exiting only ever play on genuine mount/unmount of a keyed tile
 // (new uid from refill, or a uid disappearing after a match) — a tile that
 // persists across renders just gets the `layout` transition instead.
-export function RuneTile({ tile, x, y, size, selected }: RuneTileProps) {
+export function RuneTile({ tile, x, y, size, selected, dragging, dragStyle }: RuneTileProps) {
   const pad = 4;
   const inner = size - pad * 2;
   const isPrism = tile.special === 'prism';
@@ -44,6 +46,7 @@ export function RuneTile({ tile, x, y, size, selected }: RuneTileProps) {
           left: x,
           top: y,
         },
+        dragStyle,
       ]}
     >
       <View
@@ -52,8 +55,8 @@ export function RuneTile({ tile, x, y, size, selected }: RuneTileProps) {
           {
             width: inner,
             height: inner,
-            borderColor: selected ? colors.primary : tile.special ? colors.primaryFixedDim : 'rgba(0,0,0,0.5)',
-            borderWidth: selected ? 3 : tile.special ? 2 : 1,
+            borderColor: selected || dragging ? colors.primary : tile.special ? colors.primaryFixedDim : 'rgba(0,0,0,0.5)',
+            borderWidth: selected || dragging ? 3 : tile.special ? 2 : 1,
             backgroundColor: isPrism
               ? '#1c1420'
               : ec
@@ -61,7 +64,7 @@ export function RuneTile({ tile, x, y, size, selected }: RuneTileProps) {
                 : colors.surfaceContainerLow,
             shadowColor: isPrism ? colors.tertiary : ec?.core ?? colors.primary,
           },
-          selected && styles.selectedGlow,
+          (selected || dragging) && styles.selectedGlow,
         ]}
       >
         {tile.element && !isPrism ? (
